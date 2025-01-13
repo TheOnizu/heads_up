@@ -821,6 +821,41 @@ select {
 
 /* Tips */
 
+.tips h1 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 800;
+}
+
+.tips p {
+  margin-top: 1rem;
+}
+
+.tips ol {
+  margin-top: 1rem;
+  list-style-position: inside;
+  list-style-type: decimal;
+}
+
+.tips ol > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.tips ol li a {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tips ol li a:hover {
+  --tw-text-opacity: 1;
+  color: rgb(2 132 199 / var(--tw-text-opacity));
+}
+
 /* EffortLive */
 
 /* IncidentLive.Index */

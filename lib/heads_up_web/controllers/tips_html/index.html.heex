@@ -1,0 +1,10 @@
+<div class="tips">
+  <h1>Safety Tips {@emojis}</h1>
+  <ol>
+    <%= for tip <- @tips do %>
+      <.link navigate={~p"/tip/#{tip.id}"}>
+        <li>{tip.text}</li>
+      </.link>
+    <% end %>
+  </ol>
+</div>
