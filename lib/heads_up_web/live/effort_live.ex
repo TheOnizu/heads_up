@@ -11,23 +11,33 @@ defmodule HeadsUpWeb.EffortLive do
     <div class="effort">
       <h1>Community Love</h1>
       <section>
-        <div>
-          {@responders}
-        </div>
-        &times;
-        <div>
-          {@minutes_per_responder}
-        </div>
-        =
-        <div>
-          {@responders * @minutes_per_responder}
-        </div>
-      </section>
+          <button phx-click="increment" phx-value-increment={4}>add</button>
+          <div>
+            {@responders}
+          </div>
+          &times;
+          <div>
+            {@minutes_per_responder}
+          </div>
+          =
+          <div>
+            {@responders * @minutes_per_responder}
+          </div>
+        </section>
+        <form phx-submit="set-minutes-per-responder">
+            <label>Minutes Per Responder:</label>
+            <input type="number" name="minutes" value={@minutes_per_responder} />
+        </form>
     </div>
     """
   end
 
-  # def handle_event("increment", _params, socket) do
-  #   {:noreply, socket}
-  # end
+  def handle_event("increment", %{"increment" => increment}, socket) do
+    {:noreply, update(socket, :responders, &(&1 + String.to_integer(increment)))}
+  end
+
+  def handle_event("set-minutes-per-responder", %{"minutes" => minutes}, socket) do
+    socket = assign(socket, minutes_per_responder: String.to_integer(minutes))
+    {:noreply, socket}
+  end
 end
