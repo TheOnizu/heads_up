@@ -1,7 +1,6 @@
 defmodule HeadsUpWeb.IncidentsLive.Index do
   use HeadsUpWeb, :live_view
   alias HeadsUp.Incidents
-  import HeadsUpWeb.CustomComponents
 
   def mount(_params, _session, socket) do
     socket = assign(socket, incidents: Incidents.all())

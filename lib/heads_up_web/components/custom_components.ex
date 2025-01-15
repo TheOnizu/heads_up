@@ -1,5 +1,5 @@
 defmodule HeadsUpWeb.CustomComponents do
-  use HeadsUpWeb, :html
+  use Phoenix.Component
 
   attr :status, :atom, values: [:pending, :resolved, :canceled], default: :pending
   attr :class, :string, default: nil
