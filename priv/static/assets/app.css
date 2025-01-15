@@ -1546,6 +1546,10 @@ ul.presences li .status {
   display: block;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .flex {
   display: flex;
 }
@@ -1813,6 +1817,11 @@ ul.presences li .status {
   border-color: rgb(212 212 216 / var(--tw-border-opacity));
 }
 
+.border-lime-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(101 163 13 / var(--tw-border-opacity));
+}
+
 .bg-brand\/5 {
   background-color: rgb(253 79 0 / 0.05);
 }
@@ -1982,6 +1991,11 @@ ul.presences li .status {
   line-height: 1.25rem;
 }
 
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
 .font-medium {
   font-weight: 500;
 }
@@ -1992,6 +2006,10 @@ ul.presences li .status {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .leading-10 {
@@ -2066,6 +2084,11 @@ ul.presences li .status {
 .text-zinc-900 {
   --tw-text-opacity: 1;
   color: rgb(24 24 27 / var(--tw-text-opacity));
+}
+
+.text-lime-600 {
+  --tw-text-opacity: 1;
+  color: rgb(101 163 13 / var(--tw-text-opacity));
 }
 
 .opacity-0 {
