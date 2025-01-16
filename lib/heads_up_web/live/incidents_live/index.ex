@@ -20,6 +20,17 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
     {:ok, socket}
   end
 
+  def handle_event("filter", params, socket) do
+    IO.inspect(params, label: "FILTER")
+    socket =
+      socket
+      |> assign(:form, to_form(params))
+      |> stream(:incidents, Incidents.filter_incidents(params), reset: true)
+    # IO.inspect(Incidents.filter_incidents(params), label: "FILTERED")
+
+    {:noreply, socket}
+  end
+
   def render(assigns) do
     ~H"""
     <%!-- <pre>
@@ -64,7 +75,7 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
 
   def filter_form(assigns) do
     ~H"""
-    <.form for={@form}>
+    <.form for={@form} phx-change="filter">
       <.input field={@form[:q]} placeholder="Search..." />
       <.input
         type="select"

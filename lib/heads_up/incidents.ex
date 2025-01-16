@@ -11,11 +11,11 @@ defmodule HeadsUp.Incidents do
     Repo.get!(Incident, id)
   end
 
-  def filter_incidents do
+  def filter_incidents(params) do
     Incident
-    |> where(status: :resolved)
-    |> where([i], like(i.name, "%in%"))
-    |> order_by(desc: :name)
+    # |> where(status: :resolved)
+    |> where([i], like(i.name, ^"%#{params["q"]}%"))
+    # |> order_by(desc: :name)
     |> Repo.all()
   end
 
