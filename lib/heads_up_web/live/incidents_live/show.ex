@@ -7,7 +7,7 @@ defmodule HeadsUpWeb.IncidentsLive.Show do
   end
 
   def handle_params(%{"id" => id}, _uri, socket) do
-    incident = Incidents.get_incident(id)
+    incident = Incidents.get_incident!(id)
 
     socket =
       socket
@@ -55,9 +55,11 @@ defmodule HeadsUpWeb.IncidentsLive.Show do
     <section>
       <h4>Urgent Incidents</h4>
       <ul class="incidents">
-        <li :for={incident <- @incidents}>
-          <img src={incident.image_path} /> {incident.name}
-        </li>
+        <.link :for={incident <- @incidents} navigate={~p"/incident/#{incident.id}"}>
+          <li>
+            <img src={incident.image_path} /> {incident.name}
+          </li>
+        </.link>
       </ul>
     </section>
     """
