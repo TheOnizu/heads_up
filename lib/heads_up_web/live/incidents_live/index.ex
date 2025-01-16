@@ -1,6 +1,7 @@
 defmodule HeadsUpWeb.IncidentsLive.Index do
   use HeadsUpWeb, :live_view
   alias HeadsUp.Incidents
+  alias HeadsUp.Incidents.Incident
 
   def mount(_params, _session, socket) do
     socket = assign(socket, incidents: Incidents.all())
@@ -23,7 +24,7 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
     """
   end
 
-  attr :incident, HeadsUp.Incident, required: true
+  attr :incident, Incident, required: true
 
   def incident_card(assigns) do
     ~H"""
