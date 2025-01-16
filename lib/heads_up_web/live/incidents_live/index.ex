@@ -4,7 +4,10 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
   alias HeadsUp.Incidents.Incident
 
   def mount(_params, _session, socket) do
-    socket = stream(socket, :incidents, Incidents.all())
+    socket =
+      socket
+      |> stream(:incidents, Incidents.all())
+      |> assign(form: to_form(%{}))
 
     # IO.inspect(socket.assigns.streams.incidents, label: "MOUNT")
 
@@ -19,6 +22,10 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
 
   def render(assigns) do
     ~H"""
+    <%!-- <pre>
+      <%= inspect(@form, pretty: true) %>
+      <%= inspect(@form[:q], pretty: true) %>
+    </pre> --%>
     <div class="incident-index">
       <.headline>
         <.icon name="hero-trophy-mini" /> 25 Incidents Resolved This Month!
@@ -26,6 +33,9 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
           Thanks for pitching in. {vibe}
         </:tagline>
       </.headline>
+
+      <.filter_form form={@form} />
+
       <div class="incidents" id="incidents" phx-update="stream">
         <.incident_card :for={{dom_id, incident} <- @streams.incidents} id={dom_id} incident={incident} />
       </div>
@@ -49,6 +59,26 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
         </div>
       </div>
     </.link>
+    """
+  end
+
+  def filter_form(assigns) do
+    ~H"""
+    <.form for={@form}>
+      <.input field={@form[:q]} placeholder="Search..." />
+      <.input
+        type="select"
+        field={@form[:status]}
+        prompt="Select Status"
+        options={[:pending, :resolved, :archived]}
+      />
+      <.input
+        type="select"
+        field={@form[:sort_by]}
+        prompt="Sort By"
+        options={[:name, :priority, :status]}
+      />
+    </.form>
     """
   end
 end
