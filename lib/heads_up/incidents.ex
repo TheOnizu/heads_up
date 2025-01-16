@@ -1,5 +1,5 @@
 defmodule HeadsUp.Incident do
-  defstruct [:id, :name, :description,:priority, :status, :image_path ]
+  defstruct [:id, :name, :description, :priority, :status, :image_path]
 end
 
 defmodule HeadsUp.Incidents do
@@ -30,5 +30,17 @@ defmodule HeadsUp.Incidents do
         image_path: "/images/bear-in-trash.jpg"
       }
     ]
+  end
+
+  def get_incident(id) when is_integer(id) do
+    Enum.find(all(), fn t -> t.id == id end)
+  end
+
+  def get_incident(id) when is_binary(id) do
+    id |> String.to_integer() |> get_incident()
+  end
+
+  def urgent_incidents(incident) do
+    all() |> List.delete(incident)
   end
 end
