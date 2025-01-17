@@ -4,10 +4,6 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
   alias HeadsUp.Incidents.Incident
 
   def mount(_params, _session, socket) do
-    socket =
-      socket
-      |> stream(:incidents, Incidents.all())
-      |> assign(form: to_form(%{}))
 
     # IO.inspect(socket.assigns.streams.incidents, label: "MOUNT")
 
@@ -23,7 +19,7 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
   def handle_params(params, _uri, socket) do
     socket =
       socket
-      |> stream(:incidents, Incidents.filter_incidents(params))
+      |> stream(:incidents, Incidents.filter_incidents(params), reset: true)
       |> assign(form: to_form(params))
 
       {:noreply, socket}
@@ -35,7 +31,7 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
       params
       |> Map.take(["q", "status", "sort_by"])
       |> Map.reject(fn {_, v} -> v == ""  end)
-      socket = push_navigate(socket, to: ~p"/incidents?#{params}")
+      socket = push_patch(socket, to: ~p"/incidents?#{params}")
 
     {:noreply, socket}
   end
@@ -105,7 +101,7 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
         prompt="Sort By"
         options={[:name, :priority, :status]}
       />
-      <.link navigate={~p"/incidents"}>
+      <.link patch={~p"/incidents"}>
       reset
       </.link>
     </.form>
