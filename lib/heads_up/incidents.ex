@@ -13,10 +13,35 @@ defmodule HeadsUp.Incidents do
 
   def filter_incidents(params) do
     Incident
-    # |> where(status: :resolved)
-    |> where([i], like(i.name, ^"%#{params["q"]}%"))
-    # |> order_by(desc: :name)
+    |> with_status(params["status"])
+    |> search_by(params["q"])
+    |> sort_by(params["sort_by"])
     |> Repo.all()
+  end
+
+  defp with_status(query, status)
+    when status in ~w(pending canceled resolved) do
+      where(query, status: ^status)
+  end
+
+  defp with_status(query,_status), do: query
+
+  defp search_by(query, q) when q in ["", nil], do: query
+  defp search_by(query, q), do: where(query, [r], like(r.name, ^"%#{q}%"))
+
+  defp sort_by(query, "name") do
+    order_by(query,  :name)
+  end
+  defp sort_by(query, "priority") do
+    order_by(query, asc: :priority)
+  end
+
+  defp sort_by(query, "status") do
+    order_by(query, asc: :status)
+  end
+
+  defp sort_by(query, _) do
+    order_by(query, asc: :name)
   end
 
   def urgent_incidents(incident) do
