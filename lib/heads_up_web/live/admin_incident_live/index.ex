@@ -21,6 +21,11 @@ defmodule HeadsUpWeb.AdminIncidentLive.Index do
     <div class="admin-index">
       <.header>
         <h1><%= @page_title %></h1>
+        <:actions>
+          <.link patch={~p"/admin/incidents/new"}>
+            New Incident
+          </.link>
+        </:actions>
       </.header>
       <.table id="incidents" rows={@streams.incidents}>
         <:col :let={{_dom_id, incident}} label="Name">
