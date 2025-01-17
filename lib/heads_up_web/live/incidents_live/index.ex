@@ -20,13 +20,22 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
     {:ok, socket}
   end
 
-  def handle_event("filter", params, socket) do
-    IO.inspect(params, label: "FILTER")
+  def handle_params(params, _uri, socket) do
     socket =
       socket
-      |> assign(:form, to_form(params))
-      |> stream(:incidents, Incidents.filter_incidents(params), reset: true)
+      |> stream(:incidents, Incidents.filter_incidents(params))
+      |> assign(form: to_form(params))
+
+      {:noreply, socket}
+  end
+
+  def handle_event("filter", params, socket) do
     # IO.inspect(Incidents.filter_incidents(params), label: "FILTERED")
+    params =
+      params
+      |> Map.take(["q", "status", "sort_by"])
+      |> Map.reject(fn {_, v} -> v == ""  end)
+      socket = push_navigate(socket, to: ~p"/incidents?#{params}")
 
     {:noreply, socket}
   end
@@ -96,6 +105,9 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
         prompt="Sort By"
         options={[:name, :priority, :status]}
       />
+      <.link navigate={~p"/incidents"}>
+      reset
+      </.link>
     </.form>
     """
   end
