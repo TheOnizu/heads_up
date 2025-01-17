@@ -48,7 +48,14 @@ defmodule HeadsUpWeb.IncidentsLive.Index do
       <.filter_form form={@form} />
 
       <div class="incidents" id="incidents" phx-update="stream">
-        <.incident_card :for={{dom_id, incident} <- @streams.incidents} id={dom_id} incident={incident} />
+        <div id="empty" class="no-results only:block hidden">
+          No incidents found. Try changing your filters.
+        </div>
+        <.incident_card
+          :for={{dom_id, incident} <- @streams.incidents}
+          id={dom_id}
+          incident={incident}
+        />
       </div>
     </div>
     """

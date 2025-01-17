@@ -2545,6 +2545,10 @@ ul.presences li .status {
   }
 }
 
+.only\:block:only-child {
+  display: block;
+}
+
 .hover\:cursor-pointer:hover {
   cursor: pointer;
 }
