@@ -13,13 +13,18 @@ defmodule HeadsUpWeb.IncidentsLive.Show do
       socket
       |> assign(:incident, incident)
       |> assign(:page_title, incident.name)
-      |> assign(:urgent_incidents, Incidents.urgent_incidents(incident))
+      |> assign_async(:urgent_incidents, fn ->
+        # {:error, "error je ne sais pas pk ? "} end)
+        {:ok, %{urgent_incidents:  Incidents.urgent_incidents(incident)}} end)
 
     {:noreply, socket}
   end
 
   def render(assigns) do
     ~H"""
+    <pre :if={false}>
+      <%= inspect(@urgent_incidents, pretty: true) %>
+    </pre>
     <div class="incident-show">
       <div class="incident">
         <img src={@incident.image_path} />
@@ -54,13 +59,25 @@ defmodule HeadsUpWeb.IncidentsLive.Show do
     ~H"""
     <section>
       <h4>Urgent Incidents</h4>
-      <ul class="incidents">
-        <.link :for={incident <- @incidents} navigate={~p"/incident/#{incident.id}"}>
-          <li>
-            <img src={incident.image_path} /> {incident.name}
-          </li>
-        </.link>
-      </ul>
+      <.async_result :let={result} assign={@incidents} >
+        <:loading>
+          <div class="loading">
+            <div class="spinner"></div>
+          </div>
+        </:loading>
+        <:failed :let={{:error, reason}}>
+          <div class="failed" >
+            <p><%= reason %></p>
+            </div>
+        </:failed>
+        <ul class="incidents">
+          <.link :for={incident <- result} navigate={~p"/incident/#{incident.id}"}>
+            <li>
+              <img src={incident.image_path} /> {incident.name}
+            </li>
+          </.link>
+        </ul>
+      </.async_result>
     </section>
     """
   end

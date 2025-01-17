@@ -45,6 +45,8 @@ defmodule HeadsUp.Incidents do
   end
 
   def urgent_incidents(incident) do
+    Process.sleep(10000)
+
     Incident
     |> where(status: :pending)
     |> where([i], i.id != ^incident.id)
