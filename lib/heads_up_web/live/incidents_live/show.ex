@@ -35,7 +35,7 @@ defmodule HeadsUpWeb.IncidentsLive.Show do
           <header>
             <h2>{@incident.name}</h2>
             <div class="priority">
-              1
+             <p>{@incident.priority}</p>
             </div>
           </header>
           <div class="description">
