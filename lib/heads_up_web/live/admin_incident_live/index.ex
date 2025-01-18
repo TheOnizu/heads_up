@@ -15,9 +15,7 @@ defmodule HeadsUpWeb.AdminIncidentLive.Index do
 
   def render(assigns) do
     ~H"""
-    <%!-- <pre>
-      <%= inspect(assigns, pretty: true) %>
-    </pre> --%>
+
     <div class="admin-index">
       <.header>
         <h1><%= @page_title %></h1>
