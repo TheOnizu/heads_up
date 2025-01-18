@@ -10,13 +10,9 @@ defmodule HeadsUp.Admin do
   end
 
   def create_incident(params \\ %{}) do
-    %Incident{
-      name: params["name"],
-      description: params["description"],
-      priority: params["priority"] |> String.to_integer(),
-      status: params["status"] |> String.to_existing_atom(),
-      image_path: params["image_path"]
-    }
-    |> Repo.insert!()
+    %Incident{}
+    |> Incident.changeset(params)
+    |> IO.inspect(label: "CHANGESET")
+    |> Repo.insert()
   end
 end
