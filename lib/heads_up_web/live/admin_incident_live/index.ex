@@ -42,12 +42,18 @@ defmodule HeadsUpWeb.AdminIncidentLive.Index do
           <.link patch={~p"/admin/incidents/#{incident.id}/edit"}>
             Edit
           </.link>
-          <.link patch={~p"/admin/incidents/#{incident.id}/delete"}>
+          <.link data-confirm="Are you sure?" phx-click="delete" phx-value-id={incident.id}>
             Delete
           </.link>
         </:action>
       </.table>
     </div>
     """
+  end
+
+  def handle_event("delete", %{"id" => id}, socket) do
+    incident = Admin.get_incident!(id)
+    {:ok, _} = Admin.delete_incident(incident)
+    {:noreply, stream_delete(socket, :incidents, incident)}
   end
 end
