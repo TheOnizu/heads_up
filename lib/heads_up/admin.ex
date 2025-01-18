@@ -15,4 +15,9 @@ defmodule HeadsUp.Admin do
     |> IO.inspect(label: "CHANGESET")
     |> Repo.insert()
   end
+
+  def change_incident(%Incident{} = incident, attrs \\ %{}) do
+    %Incident{}
+    |> Incident.changeset(params)
+  end
 end

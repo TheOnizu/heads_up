@@ -4,7 +4,7 @@ defmodule HeadsUpWeb.AdminIncidentLive.New do
   alias HeadsUp.Admin
 
   def mount(_params, _session, socket) do
-    changeset = Incident.changeset(%Incident{}, %{})
+    changeset = Admin.change_incident(%Incident{}, %{})
     socket =
       socket
       |> assign(:page_title, "Create a new incident")
@@ -19,16 +19,19 @@ defmodule HeadsUpWeb.AdminIncidentLive.New do
       <.header>
         <h1>Create a new incident</h1>
       </.header>
-      <.simple_form for={@form} phx-submit="save">
+      <pre>
+        <%= inspect(@changeset) %>
+      </pre>
+      <.simple_form for={@form} phx-submit="save" phx-change="validate">
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:description]} type="textarea" label="Description" />
+        <.input field={@form[:description]} type="textarea" label="Description" phx-debounce="blur" />
         <.input field={@form[:priority]} type="number" label="Priority" />
         <.input
           field={@form[:status]}
           type="select"
           label="Status"
           prompt="Select Status"
-          options={[:pending, :resolved, :archived]}
+          options={[:pending, :resolved, :canceled]}
         />
         <.input field={@form[:image_path]} type="file" label="Image" />
         <:actions>
@@ -40,6 +43,11 @@ defmodule HeadsUpWeb.AdminIncidentLive.New do
       </.back>
     </div>
     """
+  end
+
+  def handle_event("validate", %{"incident" => incident_params}, socket) do
+    changeset = Admin.change_incident(incident_params)
+    {:noreply, socket |> assign(:form, to_form(changeset, action: :validate))}
   end
 
   def handle_event("save", %{"incident" => incident_params}, socket) do
