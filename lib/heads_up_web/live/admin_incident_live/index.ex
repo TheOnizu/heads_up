@@ -40,6 +40,14 @@ defmodule HeadsUpWeb.AdminIncidentLive.Index do
         <:col :let={{_dom_id, incident}} label="Status">
           <.badge status={incident.status} />
         </:col>
+        <:action :let={{_dom_id, incident}}>
+          <.link patch={~p"/admin/incidents/#{incident.id}/edit"}>
+            Edit
+          </.link>
+          <.link patch={~p"/admin/incidents/#{incident.id}/delete"}>
+            Delete
+          </.link>
+        </:action>
       </.table>
     </div>
     """

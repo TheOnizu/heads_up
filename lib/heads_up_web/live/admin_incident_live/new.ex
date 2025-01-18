@@ -20,7 +20,7 @@ defmodule HeadsUpWeb.AdminIncidentLive.New do
         <h1>Create a new incident</h1>
       </.header>
       <pre>
-        <%= inspect(@changeset) %>
+        <%= inspect(@form, pretty: true) %>
       </pre>
       <.simple_form for={@form} phx-submit="save" phx-change="validate">
         <.input field={@form[:name]} type="text" label="Name" />
@@ -46,7 +46,7 @@ defmodule HeadsUpWeb.AdminIncidentLive.New do
   end
 
   def handle_event("validate", %{"incident" => incident_params}, socket) do
-    changeset = Admin.change_incident(incident_params)
+    changeset = Admin.change_incident(%Incident{}, incident_params)
     {:noreply, socket |> assign(:form, to_form(changeset, action: :validate))}
   end
 

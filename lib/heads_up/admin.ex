@@ -17,7 +17,7 @@ defmodule HeadsUp.Admin do
   end
 
   def change_incident(%Incident{} = incident, attrs \\ %{}) do
-    %Incident{}
-    |> Incident.changeset(params)
+    incident
+    |> Incident.changeset(attrs)
   end
 end
